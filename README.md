@@ -1,145 +1,300 @@
-# Data Warehouse and Analytics Project
+# SQL Data Warehouse & Analytics Project
 
-Welcome to the **Data Warehouse and Analytics Project** repository! 🚀  
-This project demonstrates a comprehensive data warehousing and analytics solution, from building a data warehouse to generating actionable insights. Designed as a portfolio project, it highlights industry best practices in data engineering and analytics.
+A SQL Server data warehouse project that integrates CRM and ERP data,
+applies data-quality transformations, and organizes the data into a
+Bronze--Silver--Gold architecture for analytics and reporting.
 
----
-## 🏗️ Data Architecture
+## Project Overview
 
-The data architecture for this project follows Medallion Architecture **Bronze**, **Silver**, and **Gold** layers:
+The goal of this project is to build a modern data warehouse that
+consolidates sales and customer data from CSV files supplied by two
+source systems: **CRM** and **ERP**. The project demonstrates data
+ingestion, transformation, data modelling, and preparation of data for
+analytical queries.
+
+### Objectives
+
+-   Build a data warehouse using Microsoft SQL Server.
+-   Ingest six source CSV files into a Bronze layer.
+-   Clean and standardize data in the Silver layer.
+-   Combine CRM and ERP data into business-friendly Gold views.
+-   Model sales data using a fact-and-dimension approach.
+-   Prepare the warehouse for SQL analysis and Power BI reporting.
+-   Document the architecture, data flow, and data model.
+
+## Architecture
+
+This project follows the **Medallion Architecture**:
+
 ![Data Architecture](docs/data_architecture.png)
 
-1. **Bronze Layer**: Stores raw data as-is from the source systems. Data is ingested from CSV Files into SQL Server Database.
-2. **Silver Layer**: This layer includes data cleansing, standardization, and normalization processes to prepare data for analysis.
-3. **Gold Layer**: Houses business-ready data modeled into a star schema required for reporting and analytics.
+  -----------------------------------------------------------------------
+  Layer                   Purpose                 Implementation
+  ----------------------- ----------------------- -----------------------
+  **Bronze**              Preserve source data    CSV data loaded into
+                          with minimal            SQL Server tables.
+                          transformation.         
 
----
-## 📖 Project Overview
+  **Silver**              Clean, standardize, and SQL transformations,
+                          integrate source data.  data-type handling,
+                                                  deduplication, and code
+                                                  normalization.
 
-This project involves:
+  **Gold**                Provide                 Customer and product
+                          business-friendly data  dimensions and a sales
+                          for analytics.          fact view designed
+                                                  around a star-schema
+                                                  approach.
+  -----------------------------------------------------------------------
 
-1. **Data Architecture**: Designing a Modern Data Warehouse Using Medallion Architecture **Bronze**, **Silver**, and **Gold** layers.
-2. **ETL Pipelines**: Extracting, transforming, and loading data from source systems into the warehouse.
-3. **Data Modeling**: Developing fact and dimension tables optimized for analytical queries.
-4. **Analytics & Reporting**: Creating SQL-based reports and dashboards for actionable insights.
+## Data Sources
 
-🎯 This repository is an excellent resource for professionals and students looking to showcase expertise in:
-- SQL Development
-- Data Architect
-- Data Engineering  
-- ETL Pipeline Developer  
-- Data Modeling  
-- Data Analytics  
+The project uses six CSV files from the CRM and ERP source systems.
 
----
+  Source system   Source file           Bronze table
+  --------------- --------------------- ----------------------------
+  CRM             `cust_info.csv`       `bronze.crm_cust_info`
+  CRM             `prd_info.csv`        `bronze.crm_prd_info`
+  CRM             `sales_details.csv`   `bronze.crm_sales_details`
+  ERP             `cust_az12.csv`       `bronze.erp_cust_az12`
+  ERP             `loc_a101.csv`        `bronze.erp_loc_a101`
+  ERP             `px_cat_g1v2.csv`     `bronze.erp_px_cat_g1v2`
 
-## 🛠️ Important Links & Tools:
+The original CSV files are located in the `datasets/` directory.
 
-Everything is for Free!
-- **[Datasets](datasets/):** Access to the project dataset (csv files).
-- **[SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads):** Lightweight server for hosting your SQL database.
-- **[SQL Server Management Studio (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16):** GUI for managing and interacting with databases.
-- **[Git Repository](https://github.com/):** Set up a GitHub account and repository to manage, version, and collaborate on your code efficiently.
-- **[DrawIO](https://www.drawio.com/):** Design data architecture, models, flows, and diagrams.
-- **[Notion](https://www.notion.com/templates/sql-data-warehouse-project):** Get the Project Template from Notion
-- **[Notion Project Steps](https://thankful-pangolin-2ca.notion.site/SQL-Data-Warehouse-Project-16ed041640ef80489667cfe2f380b269?pvs=4):** Access to All Project Phases and Tasks.
+## Technology Stack
 
----
+-   **Database:** Microsoft SQL Server Express
+-   **SQL development:** SQL Server Management Studio (SSMS)
+-   **Data processing:** T-SQL, stored procedures, views, and SQL
+    transformations
+-   **Architecture and modelling:** Draw.io
+-   **Documentation and project planning:** Markdown and Notion
+-   **Version control:** Git and GitHub
+-   **Reporting readiness:** Power BI
 
-## 🚀 Project Requirements
+## Repository Structure
 
-### Building the Data Warehouse (Data Engineering)
-
-#### Objective
-Develop a modern data warehouse using SQL Server to consolidate sales data, enabling analytical reporting and informed decision-making.
-
-#### Specifications
-- **Data Sources**: Import data from two source systems (ERP and CRM) provided as CSV files.
-- **Data Quality**: Cleanse and resolve data quality issues prior to analysis.
-- **Integration**: Combine both sources into a single, user-friendly data model designed for analytical queries.
-- **Scope**: Focus on the latest dataset only; historization of data is not required.
-- **Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
-
----
-
-### BI: Analytics & Reporting (Data Analysis)
-
-#### Objective
-Develop SQL-based analytics to deliver detailed insights into:
-- **Customer Behavior**
-- **Product Performance**
-- **Sales Trends**
-
-These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
-
-For more details, refer to [docs/requirements.md](docs/requirements.md).
-
-## 📂 Repository Structure
-```
+``` text
 data-warehouse-project/
 │
-├── datasets/                           # Raw datasets used for the project (ERP and CRM data)
+├── datasets/
+│   ├── source_crm/
+│   └── source_erp/
 │
-├── docs/                               # Project documentation and architecture details
-│   ├── etl.drawio                      # Draw.io file shows all different techniquies and methods of ETL
-│   ├── data_architecture.drawio        # Draw.io file shows the project's architecture
-│   ├── data_catalog.md                 # Catalog of datasets, including field descriptions and metadata
-│   ├── data_flow.drawio                # Draw.io file for the data flow diagram
-│   ├── data_models.drawio              # Draw.io file for data models (star schema)
-│   ├── naming-conventions.md           # Consistent naming guidelines for tables, columns, and files
+├── docs/
+│   ├── data_architecture.drawio
+│   ├── data_architecture.png
+│   ├── data_flow.drawio
+│   ├── data_models.drawio
+│   ├── etl.drawio
+│   ├── data_catalog.md
+│   ├── naming-conventions.md
+│   └── requirements.md
 │
-├── scripts/                            # SQL scripts for ETL and transformations
-│   ├── bronze/                         # Scripts for extracting and loading raw data
-│   ├── silver/                         # Scripts for cleaning and transforming data
-│   ├── gold/                           # Scripts for creating analytical models
+├── scripts/
+│   ├── bronze/
+│   ├── silver/
+│   └── gold/
 │
-├── tests/                              # Test scripts and quality files
-│
-├── README.md                           # Project overview and instructions
-├── LICENSE                             # License information for the repository
-├── .gitignore                          # Files and directories to be ignored by Git
-└── requirements.txt                    # Dependencies and requirements for the project
+├── tests/
+├── README.md
+├── LICENSE
+└── .gitignore
 ```
----
 
-## ☕ Stay Connected
+*The directory listing above describes the intended repository layout.
+Keep only files and folders that are actually present in your GitHub
+repository.*
 
-Let's stay in touch! Feel free to connect with me on the following platforms:
+## ETL Workflow
 
-[![YouTube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white)](http://bit.ly/3GiCVUE)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/baraa-khatib-salkini)
-[![Website](https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.datawithbaraa.com)
-[![Newsletter](https://img.shields.io/badge/Newsletter-FF5722?style=for-the-badge&logo=substack&logoColor=white)](https://bit.ly/BaraaNewsletter)
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/baraasalkini)
-[![Join](https://img.shields.io/badge/Join-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@datawithbaraa)
+### 1. Bronze Layer --- Data Ingestion
 
-All Courses and their materials are completely free, and all I ask is your support through subscribing, liking, and commenting on my channel. Your engagement means the world to me and It help the channel!
-- ✅ **SQL Full Course:** [Course Link](https://youtu.be/SSKVgrwhzus) | [Download Materials](https://www.datawithbaraa.com/sql-introduction/sql-ultimate-course/) | [GIT Repo](https://github.com/DataWithBaraa/sql-ultimate-course)
-- ✅ **Tableau Full Course:** [Course Link](https://www.youtube.com/watch?v=K3pXnbniUcM) | [Download Materials](https://www.datawithbaraa.com/tableau/tableau-thank-you/) | [Public](https://public.tableau.com/app/profile/baraa.salkini/vizzes)
+The Bronze layer stores data loaded from the six CRM and ERP CSV files.
 
-- ✅ **SQL Data Warehouse Project:** [Course Link](https://youtu.be/SSKVgrwhzus) | [Download Materials](https://www.datawithbaraa.com/sql-introduction/advanced-sql-project/) | [GIT Repo](https://github.com/DataWithBaraa/sql-data-warehouse-project)
-- ✅ **SQL Exploratory Data Analysis Project:** [Course Link](https://youtu.be/SSKVgrwhzus) | [Download Materials](https://www.datawithbaraa.com/sql-introduction/advanced-sql-analytics-project/) | [GIT Repo](https://github.com/DataWithBaraa/sql-data-analytics-project)
-- ✅ **SQL Advanced Data Analysis Project:** [Course Link](https://youtu.be/SSKVgrwhzus) | [Download Materials](https://www.datawithbaraa.com/sql-introduction/advanced-sql-analytics-project/) | [GIT Repo](https://github.com/DataWithBaraa/sql-data-analytics-project)
-  
-- ✅ **Tableau Sales Project:** [Course Link](https://www.youtube.com/watch?v=dahrmqT5GD4) | [Download Materials](https://datawithbaraa.substack.com/p/access-to-course-materials) | [Public](https://public.tableau.com/app/profile/baraa.salkini/vizzes)
-- ✅ **Tableau HR Project:** [Course Link](https://www.youtube.com/watch?v=UcGF09Awm4Y) | [Download Materials](https://datawithbaraa.substack.com/p/access-to-course-materials) | [Public](https://public.tableau.com/app/profile/baraa.salkini/vizzes)
-- ✅ **ChatGPT:** [Course Link](https://www.youtube.com/watch?v=LJLNfei4i-c) | [Download Materials](https://datawithbaraa.substack.com/p/access-to-course-materials)
+Key tasks: - Create source-aligned SQL Server tables. - Load CSV files
+using SQL Server bulk-loading operations. - Keep the raw layer available
+for downstream transformations. - Use the `bronze.load_bronze` stored
+procedure to run the Bronze loading process.
 
----
+### 2. Silver Layer --- Cleansing and Standardization
 
-## 🛡️ License
+The Silver layer applies transformations before data is used for
+analytics.
 
-This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and share this project with proper attribution.
+Examples of transformations: - Trim leading and trailing spaces. -
+Standardize customer marital-status and gender values. - Remove customer
+records with missing customer IDs. - Retain the latest customer record
+using `ROW_NUMBER()`. - Derive product category and product keys from
+source product keys. - Standardize product-line and country values. -
+Convert valid sales dates to SQL `DATE` values and represent invalid
+dates as `NULL`. - Clean customer identifiers and handle invalid future
+birth dates. - Load the ERP product-category data.
 
-## 🌟 About Me
+The `silver.load_silver` stored procedure reloads the six Silver tables
+from Bronze and prints loading-duration information.
 
-Hi there! I'm **Baraa Khatib Salkini**, also known as **Data With Baraa**. I’m an IT professional and passionate YouTuber on a mission to share knowledge and make working with data enjoyable and engaging!
+### 3. Gold Layer --- Analytics Model
 
-Let's stay in touch! Feel free to connect with me on the following platforms:
+The Gold layer exposes business-friendly views intended for analytical
+queries and reporting.
 
-[![YouTube](https://img.shields.io/badge/YouTube-red?style=for-the-badge&logo=youtube&logoColor=white)](http://bit.ly/3GiCVUE)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/baraa-khatib-salkini)
-[![Website](https://img.shields.io/badge/Website-000000?style=for-the-badge&logo=google-chrome&logoColor=white)](https://www.datawithbaraa.com)
-[![Newsletter](https://img.shields.io/badge/Newsletter-FF5722?style=for-the-badge&logo=substack&logoColor=white)](https://bit.ly/BaraaNewsletter)
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/baraasalkini)
-[![Join](https://img.shields.io/badge/Join-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@datawithbaraa)
+  -----------------------------------------------------------------------
+  Gold object                         Purpose
+  ----------------------------------- -----------------------------------
+  `gold.dim_customers`                Customer attributes enriched with
+                                      available ERP birth-date, gender,
+                                      and country information.
+
+  `gold.dim_products`                 Product attributes enriched with
+                                      category and subcategory
+                                      information.
+
+  `gold.fact_sales`                   Sales transactions with order
+                                      dates, shipping dates, quantities,
+                                      prices, sales amounts, and
+                                      customer/product keys.
+  -----------------------------------------------------------------------
+
+The intended model follows a **star-schema pattern**: the sales fact is
+connected to customer and product dimensions.
+
+Gold joins and key relationships should be validated against the actual
+data before relying on the views for business reporting.
+
+## Current Data Load Snapshot
+
+The following row counts were observed during development. They are a
+snapshot, not a guarantee that future reloads will produce identical
+counts.
+
+### Bronze layer
+
+  Table                          Rows observed
+  ---------------------------- ---------------
+  `bronze.crm_cust_info`                18,493
+  `bronze.crm_prd_info`                    397
+  `bronze.crm_sales_details`            60,398
+  `bronze.erp_cust_az12`                18,483
+  `bronze.erp_loc_a101`                 18,484
+  `bronze.erp_px_cat_g1v2`                  37
+
+### Silver layer
+
+  Table                          Rows observed
+  ---------------------------- ---------------
+  `silver.crm_cust_info`                18,484
+  `silver.crm_prd_info`                    397
+  `silver.crm_sales_details`            60,398
+  `silver.erp_cust_az12`                18,483
+  `silver.erp_loc_a101`                 18,484
+  `silver.erp_px_cat_g1v2`                  37
+
+The Silver customer count is lower than the Bronze count because the
+transformation excludes null customer IDs and keeps one latest record
+per customer ID.
+
+## Getting Started
+
+### Prerequisites
+
+1.  Install [SQL Server
+    Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads).
+2.  Install [SQL Server Management Studio
+    (SSMS)](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms).
+3.  Clone or download this repository.
+4.  Ensure the CSV files are available locally and update file paths in
+    the loading scripts to match your machine.
+5.  Connect to your SQL Server instance through SSMS.
+
+### Setup and execution
+
+1.  Create the `DataWarehouse` database.
+
+2.  Run the Bronze DDL scripts to create the Bronze tables.
+
+3.  Update the CSV file paths in the Bronze loading scripts.
+
+4.  Execute the Bronze loading procedure:
+
+    ``` sql
+    EXEC bronze.load_bronze;
+    ```
+
+5.  Run the Silver DDL scripts to create the Silver tables.
+
+6.  Create or update the Silver loading procedure, then execute it:
+
+    ``` sql
+    EXEC silver.load_silver;
+    ```
+
+7.  Verify row counts and data quality in the Silver tables.
+
+8.  Run the Gold scripts to create the Gold views.
+
+9.  Validate dimension keys, joins, and fact row counts before using the
+    model for reporting.
+
+> **Important:** The Bronze and Silver loading procedures use a
+> truncate-and-reload pattern. Review the scripts and confirm the source
+> paths and target database before running them. Do not run loading
+> procedures against a database containing data you need to preserve
+> without understanding their effects.
+
+## Validation and Data Quality
+
+Suggested checks include:
+
+-   Compare Bronze and Silver row counts.
+-   Check for duplicate customer IDs and product IDs.
+-   Confirm expected data types, especially for dates.
+-   Check that invalid source dates are represented as `NULL`.
+-   Review standardized values such as gender, marital status, product
+    line, and country.
+-   Validate that product category IDs match the ERP category table.
+-   Validate customer joins across CRM and ERP.
+-   Confirm that joins in the Gold fact view do not multiply sales
+    records.
+-   Check unmatched customer and product keys before reporting.
+
+## Documentation
+
+Project documentation and diagrams are intended to live in `docs/`:
+
+-   `data_architecture.drawio` --- overall architecture.
+-   `data_flow.drawio` --- movement of data through the layers.
+-   `data_models.drawio` --- data model and star schema.
+-   `etl.drawio` --- ETL process.
+-   `data_catalog.md` --- source and column descriptions.
+-   `naming-conventions.md` --- naming conventions.
+-   `requirements.md` --- analytics requirements.
+
+## Future Improvements
+
+-   Add repeatable automated data-quality tests.
+-   Improve load logging and error handling.
+-   Add transaction handling so a failed multi-table load can be rolled
+    back consistently.
+-   Validate all Gold joins and document unmatched records.
+-   Build Power BI dashboards for customer behaviour, product
+    performance, and sales trends.
+-   Add screenshots of the final data model and dashboard to the
+    repository.
+
+## License
+
+This project is distributed under the MIT License. See
+[`LICENSE`](LICENSE) for details.
+
+## Acknowledgements
+
+This project was inspired by the SQL Data Warehouse Project learning
+materials from [Data With Baraa](https://www.datawithbaraa.com/) and the
+related [GitHub
+repository](https://github.com/DataWithBaraa/sql-data-warehouse-project).
+
+The project is adapted for learning and portfolio development. Dataset
+attribution and licensing should follow the terms provided with the
+original project materials.
